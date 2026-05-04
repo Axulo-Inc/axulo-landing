@@ -2,7 +2,13 @@
 
 import Script from 'next/script';
 
-export default function GoogleAnalytics({ gaId }: { gaId: string }) {
+type GoogleAnalyticsProps = {
+  gaId?: string;
+};
+
+export default function GoogleAnalytics({ gaId }: GoogleAnalyticsProps) {
+  if (!gaId) return null;
+
   return (
     <>
       <Script
@@ -16,10 +22,9 @@ export default function GoogleAnalytics({ gaId }: { gaId: string }) {
           __html: `
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}
+            window.gtag = gtag;
             gtag('js', new Date());
-            gtag('config', '${gaId}', {
-              page_path: window.location.pathname,
-            });
+            gtag('config', '${gaId}', { page_path: window.location.pathname });
           `,
         }}
       />

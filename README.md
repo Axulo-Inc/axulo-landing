@@ -1,36 +1,86 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Axulo Landing (Next.js App Router)
 
-## Getting Started
+Production-ready landing page for **Axulo Technologies** built with:
+- Next.js (App Router) + TypeScript
+- Tailwind CSS
+- SEO metadata + robots + sitemap
+- Lead capture API endpoint (`/api/waitlist`)
+- GA4 + Hotjar integration via environment variables
 
-First, run the development server:
+## 1) Local Development
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open: `http://localhost:3000`
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 2) Required Environment Variables
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Copy `.env.example` and set production values:
 
-## Learn More
+```bash
+cp .env.example .env.local
+```
 
-To learn more about Next.js, take a look at the following resources:
+Key values:
+- `NEXT_PUBLIC_SITE_URL`
+- `NEXT_PUBLIC_GA_MEASUREMENT_ID`
+- `NEXT_PUBLIC_HOTJAR_ID`
+- `WAITLIST_ENDPOINT_URL` (Formspree or your own ingestion endpoint)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 3) Waitlist Conversion Endpoint
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+The waitlist form submits to `POST /api/waitlist`, which validates payloads and forwards them to `WAITLIST_ENDPOINT_URL`.
 
-## Deploy on Vercel
+Expected lead payload:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```json
+{
+  "fullName": "Jane Doe",
+  "email": "jane@company.com",
+  "company": "Acme AI",
+  "source": "axulo-landing",
+  "capturedAt": "2026-05-01T00:00:00.000Z"
+}
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+If `WAITLIST_ENDPOINT_URL` is not set, the route returns `503`.
+
+## 4) Build & Production Checks
+
+```bash
+npm run build
+npm run start
+```
+
+## 5) Lighthouse (local)
+
+Run while `npm run start` is serving on port `3000`:
+
+```bash
+npx lighthouse http://localhost:3000 \
+  --chrome-flags='--headless --no-sandbox' \
+  --only-categories=performance,accessibility,best-practices,seo \
+  --output=html --output-path=./lighthouse-report.html
+```
+
+## 6) Deploy to Vercel
+
+Recommended import settings:
+- Framework: **Next.js**
+- Root Directory: `./`
+- Build Command: auto
+- Output Directory: auto
+
+After deploy, confirm:
+- Hero animations and SystemVisual render
+- CTA buttons navigate correctly (`#features`, `#waitlist`, `#contact`)
+- Waitlist POST succeeds in production
+- GA4 + Hotjar scripts load when IDs are present
+- `https://<domain>/robots.txt` and `https://<domain>/sitemap.xml` resolve
+
+## Repository
+
+- GitHub: `https://github.com/Axulo-Inc/axulo-landing`

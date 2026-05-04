@@ -1,13 +1,15 @@
-import { MetadataRoute } from 'next'
- 
+import { MetadataRoute } from 'next';
+import { siteConfig } from '@/lib/site';
+
 export default function sitemap(): MetadataRoute.Sitemap {
+  const now = new Date();
+
   return [
     {
-      url: 'https://axulo.com',
-      lastModified: new Date(),
-      changeFrequency: 'monthly',
+      url: siteConfig.url,
+      lastModified: now,
+      changeFrequency: 'weekly',
       priority: 1,
     },
-    // Add more URLs as needed
-  ]
+  ];
 }

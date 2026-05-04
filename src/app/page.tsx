@@ -1,121 +1,145 @@
-import Image from "next/image";
-import LeadCaptureForm from "@/components/LeadCaptureForm";
-import { ArrowRight, CheckCircle, Zap, Shield, Rocket } from "lucide-react";
+import HeroSection from '@/components/HeroSection';
+import LeadCaptureForm from '@/components/LeadCaptureForm';
+import { CheckCircle2, GaugeCircle, LockKeyhole, Network, Rocket, Sparkles } from 'lucide-react';
+import { siteConfig } from '@/lib/site';
+
+const features = [
+  {
+    icon: GaugeCircle,
+    title: 'Ultra-fast inference routing',
+    description:
+      'Route workloads across optimized compute tiers with latency-aware orchestration and intelligent failover.',
+  },
+  {
+    icon: LockKeyhole,
+    title: 'Security-first architecture',
+    description:
+      'Runtime policy controls, encrypted transport, and audit-ready workflows built for regulated environments.',
+  },
+  {
+    icon: Network,
+    title: 'Composable system mesh',
+    description:
+      'Connect data sources, models, and agents with predictable pipelines and production-grade observability.',
+  },
+];
+
+const benefits = [
+  'Dedicated implementation support',
+  'Architecture review with Axulo engineers',
+  'Priority access to new platform releases',
+  'Deployment guides for teams and enterprise environments',
+];
 
 export default function Home() {
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'Organization',
+    name: siteConfig.name,
+    url: siteConfig.url,
+    sameAs: ['https://github.com/Axulo-Inc'],
+    description: siteConfig.description,
+  };
+
   return (
-    <div className="flex flex-col min-h-screen">
-      {/* Hero Section */}
-      <header className="relative py-20 overflow-hidden bg-gradient-to-br from-blue-900 to-indigo-950 text-white">
-        <div className="container mx-auto px-6 relative z-10">
-          <div className="flex flex-col items-center text-center">
-            <h1 className="text-5xl md:text-7xl font-extrabold mb-6 tracking-tight">
-              Axulo <span className="text-blue-400">Technologies</span>
-            </h1>
-            <p className="text-xl md:text-2xl mb-10 text-blue-100 max-w-2xl">
-              Building the future of decentralized intelligence. Secure, scalable, and production-ready solutions for the modern web.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4">
-              <a href="#waitlist" className="px-8 py-4 bg-blue-500 hover:bg-blue-600 rounded-full font-bold text-lg transition-all flex items-center justify-center">
-                Get Started <ArrowRight className="ml-2 h-5 w-5" />
-              </a>
-              <a href="#features" className="px-8 py-4 bg-white/10 hover:bg-white/20 rounded-full font-bold text-lg transition-all">
-                Learn More
-              </a>
-            </div>
-          </div>
-        </div>
-        <div className="absolute top-0 left-0 w-full h-full opacity-10 pointer-events-none">
-          <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-blue-500 rounded-full blur-3xl animate-pulse"></div>
-          <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-indigo-500 rounded-full blur-3xl animate-pulse delay-700"></div>
-        </div>
-      </header>
+    <div className="flex min-h-screen flex-col bg-slate-50">
+      <HeroSection />
 
-      {/* Features Section */}
-      <section id="features" className="py-24 bg-gray-50">
-        <div className="container mx-auto px-6">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Why Choose Axulo?</h2>
-            <p className="text-gray-600 max-w-2xl mx-auto text-lg">
-              We provide the tools and infrastructure needed to build and scale your next big idea.
+      <main>
+        <section id="features" className="mx-auto max-w-6xl px-6 py-20">
+          <div className="mx-auto mb-12 max-w-2xl text-center">
+            <p className="inline-flex items-center rounded-full border border-blue-200 bg-blue-50 px-3 py-1 text-xs font-semibold uppercase tracking-[0.16em] text-blue-700">
+              <Sparkles className="mr-2 h-3.5 w-3.5" />
+              Platform capabilities
+            </p>
+            <h2 className="mt-4 text-3xl font-bold tracking-tight text-slate-900 md:text-4xl">
+              Built for high-assurance AI and decentralized systems
+            </h2>
+            <p className="mt-3 text-slate-600">
+              Axulo combines speed, control, and resilience so your team can ship faster without sacrificing governance.
             </p>
           </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
-            {[
-              {
-                icon: <Zap className="h-10 w-10 text-blue-500" />,
-                title: "Ultra Fast",
-                description: "Built on top of cutting-edge technology for maximum performance and low latency."
-              },
-              {
-                icon: <Shield className="h-10 w-10 text-blue-500" />,
-                title: "Secure by Design",
-                description: "Enterprise-grade security built into every layer of our infrastructure."
-              },
-              {
-                icon: <Rocket className="h-10 w-10 text-blue-500" />,
-                title: "Scale Anywhere",
-                description: "Deploy globally with automatic scaling that grows with your user base."
-              }
-            ].map((feature, i) => (
-              <div key={i} className="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
-                <div className="mb-4">{feature.icon}</div>
-                <h3 className="text-xl font-bold mb-2 text-gray-900">{feature.title}</h3>
-                <p className="text-gray-600">{feature.description}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
 
-      {/* Waitlist Section */}
-      <section id="waitlist" className="py-24 bg-white">
-        <div className="container mx-auto px-6">
-          <div className="flex flex-col md:flex-row items-center gap-12">
-            <div className="flex-1">
-              <h2 className="text-4xl font-bold text-gray-900 mb-6 leading-tight">
-                Ready to transform your business?
+          <div className="grid gap-6 md:grid-cols-3">
+            {features.map((feature) => {
+              const Icon = feature.icon;
+              return (
+                <article
+                  key={feature.title}
+                  className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-md"
+                >
+                  <Icon className="h-8 w-8 text-blue-600" />
+                  <h3 className="mt-4 text-lg font-semibold text-slate-900">{feature.title}</h3>
+                  <p className="mt-2 text-sm leading-6 text-slate-600">{feature.description}</p>
+                </article>
+              );
+            })}
+          </div>
+        </section>
+
+        <section id="waitlist" className="border-y border-slate-200 bg-white py-20">
+          <div className="mx-auto grid max-w-6xl gap-12 px-6 md:grid-cols-2 md:items-start">
+            <div>
+              <p className="inline-flex items-center rounded-full border border-indigo-200 bg-indigo-50 px-3 py-1 text-xs font-semibold uppercase tracking-[0.16em] text-indigo-700">
+                <Rocket className="mr-2 h-3.5 w-3.5" />
+                Launch with confidence
+              </p>
+              <h2 className="mt-4 text-3xl font-bold tracking-tight text-slate-900 md:text-4xl">
+                Get early access to Axulo
               </h2>
-              <ul className="space-y-4">
-                {[
-                  "Early access to new features",
-                  "Direct support from our engineering team",
-                  "Custom integration consulting",
-                  "Scale-as-you-grow pricing models"
-                ].map((item, i) => (
-                  <li key={i} className="flex items-center text-gray-700">
-                    <CheckCircle className="h-6 w-6 text-green-500 mr-3" />
-                    <span className="text-lg">{item}</span>
+              <p className="mt-4 text-slate-600">
+                We partner with product and platform teams to move from prototype to production quickly.
+              </p>
+
+              <ul className="mt-6 space-y-3">
+                {benefits.map((item) => (
+                  <li key={item} className="flex items-start text-sm text-slate-700">
+                    <CheckCircle2 className="mr-2 mt-0.5 h-4 w-4 shrink-0 text-emerald-500" />
+                    <span>{item}</span>
                   </li>
                 ))}
               </ul>
             </div>
-            <div className="flex-1 w-full max-w-lg">
-              <LeadCaptureForm />
-            </div>
+
+            <LeadCaptureForm />
+          </div>
+        </section>
+      </main>
+
+      <footer id="contact" className="bg-slate-950 py-12 text-slate-300">
+        <div className="mx-auto flex max-w-6xl flex-col gap-6 px-6 md:flex-row md:items-center md:justify-between">
+          <div>
+            <p className="text-lg font-bold text-white">Axulo Technologies</p>
+            <p className="mt-2 text-sm text-slate-400">Secure infrastructure for decentralized intelligence.</p>
+          </div>
+
+          <div className="flex flex-wrap gap-5 text-sm">
+            <a href="#waitlist" className="transition hover:text-white">
+              Join waitlist
+            </a>
+            <a
+              href="https://github.com/Axulo-Inc"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="transition hover:text-white"
+            >
+              GitHub
+            </a>
+            <a href="mailto:hello@axulo.com" className="transition hover:text-white">
+              hello@axulo.com
+            </a>
           </div>
         </div>
-      </section>
 
-      {/* Footer */}
-      <footer className="py-12 bg-gray-900 text-gray-400">
-        <div className="container mx-auto px-6">
-          <div className="flex flex-col md:flex-row justify-between items-center">
-            <div className="mb-6 md:mb-0">
-              <span className="text-2xl font-bold text-white">Axulo</span>
-            </div>
-            <div className="flex gap-8">
-              <a href="#" className="hover:text-white transition-colors">Twitter</a>
-              <a href="#" className="hover:text-white transition-colors">GitHub</a>
-              <a href="#" className="hover:text-white transition-colors">LinkedIn</a>
-            </div>
-          </div>
-          <div className="mt-8 pt-8 border-t border-gray-800 text-center text-sm">
-            &copy; {new Date().getFullYear()} Axulo Technologies Inc. All rights reserved.
-          </div>
+        <div className="mx-auto mt-8 max-w-6xl border-t border-white/10 px-6 pt-6 text-xs text-slate-500">
+          © {new Date().getFullYear()} Axulo Technologies Inc. All rights reserved.
         </div>
       </footer>
+
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
     </div>
   );
 }
